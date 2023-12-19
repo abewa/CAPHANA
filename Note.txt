@@ -1,0 +1,29 @@
+#install Node
+
+#instal CAP SDK
+npm i -g @sap/cds-dk
+
+#install Hana-cli
+npm i -g hana-cli
+
+# install extensions
+
+Fiori tools 
+CDS language support.
+
+#login to cloud foundary
+cf login
+
+# See the services running
+cf services
+
+#see the hana instance is running
+hana-cli hc
+
+#start hana instance(hana-db)
+hana-cli start
+
+# install packages
+npm instal
+
+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
