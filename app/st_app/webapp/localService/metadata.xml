@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="StudentService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Users" EntityType="StudentService.Users"/>
+                <EntitySet Name="Students" EntityType="StudentService.Students">
+                    <NavigationPropertyBinding Path="Advisor" Target="Users"/>
+                </EntitySet>
+                <EntitySet Name="Student_applications" EntityType="StudentService.Student_applications">
+                    <NavigationPropertyBinding Path="Student" Target="Students"/>
+                    <NavigationPropertyBinding Path="Course_id" Target="School_courses"/>
+                    <NavigationPropertyBinding Path="User" Target="Users"/>
+                </EntitySet>
+                <EntitySet Name="Schools" EntityType="StudentService.Schools"/>
+                <EntitySet Name="Student_communications" EntityType="StudentService.Student_communications">
+                    <NavigationPropertyBinding Path="Student" Target="Students"/>
+                    <NavigationPropertyBinding Path="User" Target="Users"/>
+                    <NavigationPropertyBinding Path="Updated_by" Target="Users"/>
+                </EntitySet>
+                <EntitySet Name="School_courses" EntityType="StudentService.School_courses">
+                    <NavigationPropertyBinding Path="School" Target="Schools"/>
+                </EntitySet>
+            </EntityContainer>
+            <EntityType Name="Users">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Full_name" Type="Edm.String"/>
+                <Property Name="Email" Type="Edm.String"/>
+                <Property Name="Office" Type="Edm.String"/>
+                <Property Name="Role" Type="Edm.String"/>
+                <Property Name="Password" Type="Edm.String"/>
+                <Property Name="Last_login" Type="Edm.DateTimeOffset"/>
+                <Property Name="Account_status" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="Students">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="Full_name" Type="Edm.String"/>
+                <Property Name="Gender" Type="Edm.String"/>
+                <Property Name="Office" Type="Edm.String"/>
+                <NavigationProperty Name="Advisor" Type="StudentService.Users">
+                    <ReferentialConstraint Property="Advisor_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Advisor_ID" Type="Edm.Int32"/>
+                <Property Name="Planned_study_date" Type="Edm.Date"/>
+            </EntityType>
+            <EntityType Name="Student_applications">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="Student" Type="StudentService.Students">
+                    <ReferentialConstraint Property="Student_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Student_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="Course_id" Type="StudentService.School_courses">
+                    <ReferentialConstraint Property="Course_id_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Course_id_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="User" Type="StudentService.Users">
+                    <ReferentialConstraint Property="User_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="User_ID" Type="Edm.Int32"/>
+                <Property Name="Start_date" Type="Edm.DateTimeOffset"/>
+                <Property Name="Note" Type="Edm.String"/>
+                <Property Name="Created_at" Type="Edm.DateTimeOffset"/>
+                <Property Name="Updated_at" Type="Edm.DateTimeOffset"/>
+                <Property Name="Final_choice" Type="Edm.String"/>
+                <Property Name="Is_deferred" Type="Edm.String"/>
+                <Property Name="Application_status" Type="Edm.String"/>
+            </EntityType>
+            <EntityType Name="Schools">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="School_name" Type="Edm.String"/>
+                <Property Name="Country" Type="Edm.String"/>
+                <Property Name="Creatd_at" Type="Edm.DateTimeOffset"/>
+            </EntityType>
+            <EntityType Name="Student_communications">
+                <Key>
+                    <PropertyRef Name="Id"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="Id" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="Student" Type="StudentService.Students">
+                    <ReferentialConstraint Property="Student_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Student_ID" Type="Edm.Int32"/>
+                <NavigationProperty Name="User" Type="StudentService.Users">
+                    <ReferentialConstraint Property="User_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="User_ID" Type="Edm.Int32"/>
+                <Property Name="Message" Type="Edm.String"/>
+                <Property Name="Created_date" Type="Edm.DateTimeOffset"/>
+                <Property Name="Updated_date" Type="Edm.DateTimeOffset"/>
+                <NavigationProperty Name="Updated_by" Type="StudentService.Users">
+                    <ReferentialConstraint Property="Updated_by_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="Updated_by_ID" Type="Edm.Int32"/>
+            </EntityType>
+            <EntityType Name="School_courses">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="School" Type="StudentService.Schools">
+                    <ReferentialConstraint Property="School_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="School_ID" Type="Edm.Int32"/>
+                <Property Name="Course_name" Type="Edm.String"/>
+                <Property Name="Status" Type="Edm.Int32"/>
+                <Property Name="Created_at" Type="Edm.DateTimeOffset"/>
+                <Property Name="Updated_at" Type="Edm.DateTimeOffset"/>
+            </EntityType>
+            <Annotations Target="StudentService.Users/createdAt">
+                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Core.Immutable" Bool="true"/>
+                <Annotation Term="Core.Computed" Bool="true"/>
+                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                </Annotations>
+                <Annotations Target="StudentService.Users/createdBy">
+                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                    <Annotation Term="Core.Immutable" Bool="true"/>
+                    <Annotation Term="Core.Computed" Bool="true"/>
+                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                        </Annotations>
+                        <Annotations Target="StudentService.Users/modifiedAt">
+                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                            <Annotation Term="Core.Computed" Bool="true"/>
+                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                            </Annotations>
+                            <Annotations Target="StudentService.Users/modifiedBy">
+                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                <Annotation Term="Core.Computed" Bool="true"/>
+                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/ID">
+                                        <Annotation Term="Common.Label" String="DB ID"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Full_name">
+                                        <Annotation Term="Common.Label" String="Full Name"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Email">
+                                        <Annotation Term="Common.Label" String="Email"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Office">
+                                        <Annotation Term="Common.Label" String="Office"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Role">
+                                        <Annotation Term="Common.Label" String="Role"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Password">
+                                        <Annotation Term="Common.Label" String="Password"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Last_login">
+                                        <Annotation Term="Common.Label" String="Last Login"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Users/Account_status">
+                                        <Annotation Term="Common.Label" String="Account Status"/>
+                                    </Annotations>
+                                    <Annotations Target="StudentService.Students/createdAt">
+                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                        </Annotations>
+                                        <Annotations Target="StudentService.Students/createdBy">
+                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                </Annotations>
+                                                <Annotations Target="StudentService.Students/modifiedAt">
+                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                    </Annotations>
+                                                    <Annotations Target="StudentService.Students/modifiedBy">
+                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/ID">
+                                                                <Annotation Term="Common.Label" String="DB ID"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/Full_name">
+                                                                <Annotation Term="Common.Label" String="Full Name"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/Gender">
+                                                                <Annotation Term="Common.Label" String="Gender"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/Office">
+                                                                <Annotation Term="Common.Label" String="Office"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/Advisor">
+                                                                <Annotation Term="Common.Label" String="Advisor"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/Advisor_ID">
+                                                                <Annotation Term="Common.Label" String="Advisor"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Students/Planned_study_date">
+                                                                <Annotation Term="Common.Label" String="Planned Study Date"/>
+                                                            </Annotations>
+                                                            <Annotations Target="StudentService.Student_applications/createdAt">
+                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                </Annotations>
+                                                                <Annotations Target="StudentService.Student_applications/createdBy">
+                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                    <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                        </Annotations>
+                                                                        <Annotations Target="StudentService.Student_applications/modifiedAt">
+                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                            </Annotations>
+                                                                            <Annotations Target="StudentService.Student_applications/modifiedBy">
+                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                    </Annotations>
+                                                                                    <Annotations Target="StudentService.Schools/createdAt">
+                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                        </Annotations>
+                                                                                        <Annotations Target="StudentService.Schools/createdBy">
+                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                </Annotations>
+                                                                                                <Annotations Target="StudentService.Schools/modifiedAt">
+                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                    </Annotations>
+                                                                                                    <Annotations Target="StudentService.Schools/modifiedBy">
+                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                            </Annotations>
+                                                                                                            <Annotations Target="StudentService.Student_communications/createdAt">
+                                                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                                                </Annotations>
+                                                                                                                <Annotations Target="StudentService.Student_communications/createdBy">
+                                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                    <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                    <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                                        </Annotations>
+                                                                                                                        <Annotations Target="StudentService.Student_communications/modifiedAt">
+                                                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                                            </Annotations>
+                                                                                                                            <Annotations Target="StudentService.Student_communications/modifiedBy">
+                                                                                                                                <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                                                    </Annotations>
+                                                                                                                                    <Annotations Target="StudentService.School_courses/createdAt">
+                                                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                        <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                        <Annotation Term="Common.Label" String="{i18n>CreatedAt}"/>
+                                                                                                                                        </Annotations>
+                                                                                                                                        <Annotations Target="StudentService.School_courses/createdBy">
+                                                                                                                                            <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                            <Annotation Term="Core.Immutable" Bool="true"/>
+                                                                                                                                            <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                            <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                                                <Annotation Term="Common.Label" String="{i18n>CreatedBy}"/>
+                                                                                                                                                </Annotations>
+                                                                                                                                                <Annotations Target="StudentService.School_courses/modifiedAt">
+                                                                                                                                                    <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                                    <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                    <Annotation Term="Common.Label" String="{i18n>ChangedAt}"/>
+                                                                                                                                                    </Annotations>
+                                                                                                                                                    <Annotations Target="StudentService.School_courses/modifiedBy">
+                                                                                                                                                        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+                                                                                                                                                        <Annotation Term="Core.Computed" Bool="true"/>
+                                                                                                                                                        <Annotation Term="Core.Description" String="{i18n>UserID.Description}"/>
+                                                                                                                                                            <Annotation Term="Common.Label" String="{i18n>ChangedBy}"/>
+                                                                                                                                                            </Annotations>
+                                                                                                                                                        </Schema>
+                                                                                                                                                    </edmx:DataServices>
+                                                                                                                                                </edmx:Edmx>

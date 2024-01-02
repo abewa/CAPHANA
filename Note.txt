@@ -2,6 +2,12 @@
 
 #instal CAP SDK
 npm i -g @sap/cds-dk
+or
+npm add -g @sap/cds-dk
+cds  #run the installed CLI
+
+#install git
+git version #to check the version
 
 #install Hana-cli
 npm i -g hana-cli
@@ -17,7 +23,7 @@ cf login
 # See the services running
 cf services
 
-#see the hana instance is running
+#see if the hana instance is running
 hana-cli hc
 
 #start hana instance(hana-db)
@@ -26,4 +32,36 @@ hana-cli start
 # install packages
 npm instal
 
+#Create db/schema.cds
+
+#create srv/schema_srv.cds
+
+#build the cds
+cds build
+
+#create HDI container (Make sure the hana db is up and running)
+cf create-service hana hdi-shared CAPHANAHDI 
+
+#check the status of the HDI container
+cf service CAPHANAHDI
+
+#Create a service Key (It may create the key automatically when deploying it)
+cf create-service-key CAPHANAHDI SharedDevKey  
+
+#Deploy our content to the database
+cds deploy --to hana:CAPHANAHDI  
+
+#create shortcut to deploy in package.jason in scripts section
+"deploy": "cds deploy --to hana:CAPHANAHDI"  # then deploy through the command: npm run deploy
+
+#open DB explorer
+hana-cli dbx
+
+#run query from command line
+hana-cli querySimple -q "select * from APP_CAP_HANA_STUDENTS"
+
+#change xsuaa in package.json to 
+"auth": "xauaa" to "auth": "moked"
+
+#git Key
 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
